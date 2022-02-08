@@ -31,6 +31,9 @@ class MySql:
         cur = self.conn.cursor()
         try:
             cur.execute(sql_1)
+            # 尝试获取id
+            print("最新ID为", int(cur.lastrowid))
+            print("插入数据的ID", int(self.conn.insert_id()))
             cur.execute("commit")
             exit()
             return True

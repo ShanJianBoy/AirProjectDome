@@ -31,7 +31,8 @@ user_name = fake.name()
 
 # 定义各目录
 ProjectHome = os.path.split(os.path.realpath(__file__))[0]
-TestCasePath = os.path.join(ProjectHome, "Testcase")
+TestCasePath = os.path.join(ProjectHome, "TestCase")
+
 
 # 初始化启动浏览器
 auto_setup(__file__, logdir=True)
@@ -75,12 +76,17 @@ if "DCC运营人员" not in user_text:
 """ 用例一 """
 
 # 生成手机号的excel文件，作为通话测试数据
-filename_0 = r'D:\PycharmProjects\AirProjectDome\TestData\test_0'
+filename_0 = r'D:/PycharmProjects/AirProjectDome/TestCase/Demo/TestData/test'
 head_0 = '序号', '手机号码'
-sheet_0 = 'data01'
+sheet_0 = 'testdata'
 data_0 = ran_list(5)
 
 write_excel(filename_0, sheet_0, data_0, head_0)
+
+# 读取excel表手机号
+file_0 = os.path.join(TestCasePath, 'D:/PycharmProjects/AirProjectDome/TestCase/Demo/TestData/test.xlsx')
+testdata = read_excel(file_0)
+mobile = testdata[0]['手机号码']
 
 
 # 判断是否存在坐席
@@ -134,7 +140,7 @@ sleep(1.0)
 
 # 点击外呼
 driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[2]/ul/div[4]/div[1]/div[1]/img").click()
-driver.find_element_by_xpath("//input[@placeholder='请粘贴/输入手机号码']").send_keys(phone)
+driver.find_element_by_xpath("//input[@placeholder='请粘贴/输入手机号码']").send_keys(mobile)
 driver.find_element_by_xpath("//*[@id=\"dial-task\"]/div/div[2]/button").click()
 sleep(1.0)
 
@@ -178,7 +184,7 @@ driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[2]/ul/div[4]/div[1]/div[1
 
 
 """用例三"""
-"""
+
 # 接口新增数据数据
 add_lead(10)
 driver.refresh()
@@ -209,10 +215,9 @@ assert_equal(number_text, '100条/页', '判断是否展示100条/页')
 
 # 生成报告
 # simple_report(__file__, logpath=True, output=r"D:\PycharmProjects\AirProjectDome\idcc_report.html")
-# rp = LogToHtml(__file__, export_dir=r'D:\PycharmProjects\AirProjectDome\report',
-#                lang='zh', plugins=["airtest_selenium.report"])
-# rp.report(output_file=r'idcc.html')
+rp = LogToHtml(__file__, export_dir=r'D:\PycharmProjects\AirProjectDome\report',
+               lang='zh', plugins=["airtest_selenium.report"])
+rp.report(output_file=r'idcc.html')
 
 # 关闭浏览器
 driver.quit()
-"""

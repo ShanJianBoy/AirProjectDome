@@ -36,11 +36,11 @@ def write_excel(filename, sheet, data, head=None):
     print("写入数据成功！！！")
 
 
-# from comm.phone_data import faker_maker
-#
-# filename_0 = r'D:\PycharmProjects\AirProjectDome\testdata\test_04'
-# head_0 = '序号', '手机号码', '姓名', '性别', '逾期金额'
-# sheet_0 = 'data01'
-# data_0 = faker_maker(5)
-#
-# write_excel(filename_0, sheet_0, data_0)
+from Comm.phone_data import ran_list
+
+filename_0 = r'D:\PycharmProjects\AirProjectDome\TestData\test_0'
+head_0 = '序号', '手机号码'
+sheet_0 = 'data01'
+data_0 = ran_list(5)
+
+write_excel(filename_0, sheet_0, data_0, head_0)

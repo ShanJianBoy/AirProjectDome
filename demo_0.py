@@ -11,7 +11,6 @@ from selenium.webdriver.common.keys import Keys
 from airtest_selenium.proxy import WebChrome
 from airtest.report.report import simple_report
 from airtest.report.report import LogToHtml
-
 from faker import Faker
 
 from Comm.phone_data import random_phone, ran_num, ran_list
@@ -41,7 +40,7 @@ driver = WebChrome()
 driver.maximize_window()
 driver.implicitly_wait(20)
 
-ST.SAVE_IMAGE = False
+# ST.SAVE_IMAGE = False
 
 # 打开idcc
 driver.get("https://pre-release-cas-client.m-insight.com.cn/7aac08b625424186")
@@ -62,7 +61,7 @@ user_text = driver.find_element_by_css_selector("#app > div > div.main-container
 # print(user_text)
 
 # 如果不是DCC运营人员自动切换
-if "DCC运营人员" not in user_text:
+if user_text != '1130测试项目（20211130） /　DCC运营人员 切换':
     driver.find_element_by_css_selector(
         "#app > div > div.main-container > ul > div.right-menu > span > span").click()
     driver.find_element_by_xpath("//input[@placeholder='请选择项目']").click()
@@ -73,6 +72,8 @@ if "DCC运营人员" not in user_text:
         "body > div.el-dialog__wrapper > div > div.el-dialog__body > div > div > "
         "button.el-button.dialog-footer-btn.el-button--primary.el-button--medium""").click()
 
+
+
 """ 用例一 """
 
 # 生成手机号的excel文件，作为通话测试数据
@@ -80,7 +81,6 @@ filename_0 = r'D:/PycharmProjects/AirProjectDome/TestCase/Demo/TestData/test'
 head_0 = '序号', '手机号码'
 sheet_0 = 'testdata'
 data_0 = ran_list(5)
-
 write_excel(filename_0, sheet_0, data_0, head_0)
 
 # 读取excel表手机号
@@ -217,6 +217,7 @@ assert_equal(number_text, '100条/页', '判断是否展示100条/页')
 # simple_report(__file__, logpath=True, output=r"D:\PycharmProjects\AirProjectDome\idcc_report.html")
 rp = LogToHtml(__file__, export_dir=r'D:\PycharmProjects\AirProjectDome\report',
                lang='zh', plugins=["airtest_selenium.report"])
+
 rp.report(output_file=r'idcc.html')
 
 # 关闭浏览器

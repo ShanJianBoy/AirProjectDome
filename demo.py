@@ -67,9 +67,9 @@ if user_text != '1130测试项目（20211130） /　DCC运营人员 切换':
 """ 用例一 """
 # 判断是否存在
 
-# 选择坐席号
-driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[2]/ul/div[3]/div/div/div/span[3]").click()
-driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[2]/ul/div[3]/div/div/div[1]/div/div[2]").click()
+# # 选择坐席号
+# driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[2]/ul/div[3]/div/div/div/span[3]").click()
+# driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[2]/ul/div[3]/div/div/div[1]/div/div[2]").click()
 # 点击在线
 driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[2]/ul/div[3]/div/div/div[3]").click()
 driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[2]/ul/div[3]/div/div/div[3]/div/div/span").click()
@@ -156,8 +156,12 @@ assert_equal(number_text, '100条/页', '判断是否展示100条/页')
 
 # 生成报告
 # simple_report(__file__, logpath=True, output=r"D:\PycharmProjects\AirProjectDome\idcc_report.html")
-rp = LogToHtml(__file__, export_dir=r'D:\PycharmProjects\AirProjectDome\report',
+
+rp = LogToHtml(__file__, log_root=r'D:\PycharmProjects\AirProjectDome\log',
+               export_dir=r'D:\PycharmProjects\AirProjectDome\report',
+               logfile=r'D:\PycharmProjects\AirProjectDome\log\log.txt',
                lang='zh', plugins=["airtest_selenium.report"])
+
 rp.report(output_file=r'idcc.html')
 
 # 关闭浏览器

@@ -9,7 +9,7 @@ from Comm.excel_data import read_excel
 from Comm.phone_data import ran_num
 
 
-class MySql:
+class NewMySql:
 
     def __init__(self):
         """初始化"""
@@ -85,8 +85,11 @@ class MySql:
 # se = my.select_data(selesql)
 # # print(se)
 # df1 = np.array(se)
+# df0 = df1[0][0]
+# print(df0)
 # df2 = df1.tolist()
-# seats_id = df2[0][0]
+# print(df2)
+# seats_id = df2[:1]
 # print(seats_id)
 # #
 # # insesql = 'insert into dcc_dial_agent_identity(dial_agent_id, identity_src_id, role_src_id, online_status_type, ' \

@@ -22,12 +22,6 @@ def random_phone():
     return iphone
 
 
-def faker_maker():
-    """规定Faker使用中文"""
-    faker = Faker(locale='zh_CN')
-    return faker
-
-
 def ran_list(num):
     """循环生成序号与手机号插入列表"""
     f = faker_maker()

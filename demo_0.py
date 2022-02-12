@@ -3,8 +3,8 @@ __author__ = "Jian"
 
 import logging
 import os
-
 import numpy as np
+
 from airtest.core.api import *
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -15,7 +15,7 @@ from faker import Faker
 
 from Comm.phone_data import random_phone, ran_num, ran_list
 from Comm.excel_data import read_excel, write_excel
-from Comm.mysql_data import MySql
+from Comm.mysql_data import NewMySql
 from Comm.port_data import add_lead
 
 # 过滤不必要的日志
@@ -23,7 +23,7 @@ logger = logging.getLogger("airtest")
 logger.setLevel(logging.ERROR)
 
 """使用的数据"""
-my = MySql()
+my = NewMySql()
 phone = random_phone()
 fake = Faker('zh_CN')
 user_name = fake.name()
@@ -31,7 +31,6 @@ user_name = fake.name()
 # 定义各目录
 ProjectHome = os.path.split(os.path.realpath(__file__))[0]
 TestCasePath = os.path.join(ProjectHome, "TestCase")
-
 
 # 初始化启动浏览器
 auto_setup(__file__, logdir=True)
@@ -72,8 +71,6 @@ if user_text != '1130测试项目（20211130） /　DCC运营人员 切换':
         "body > div.el-dialog__wrapper > div > div.el-dialog__body > div > div > "
         "button.el-button.dialog-footer-btn.el-button--primary.el-button--medium""").click()
 
-
-
 """ 用例一 """
 
 # 生成手机号的excel文件，作为通话测试数据
@@ -87,7 +84,6 @@ write_excel(filename_0, sheet_0, data_0, head_0)
 file_0 = os.path.join(TestCasePath, 'D:/PycharmProjects/AirProjectDome/TestCase/Demo/TestData/test.xlsx')
 testdata = read_excel(file_0)
 mobile = testdata[0]['手机号码']
-
 
 # 判断是否存在坐席
 seats = driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[2]/ul/div[3]/div/div").text
@@ -114,13 +110,14 @@ if seats == '未绑定坐席':
     selesql = 'select id from dcc_dial_agent order by id desc limit 1'
     se = my.select_data(selesql)
     df1 = np.array(se)
-    df2 = df1.tolist()
-    seats_id = df2[0][0]
+    # df2 = df1.tolist()
+    # df3 = df2[0]
+    seats_id = df1[0][0]
     # print(seats_id)
 
     insesql = 'insert into dcc_dial_agent_identity(dial_agent_id, identity_src_id, role_src_id, online_status_type, ' \
               'select_status_type, version_num) values(%s, %s, %s, %s, %s, %s) ' % (
-              seats_id, '503', '20', '0', '0', '1')
+                  seats_id, '503', '20', '0', '0', '1')
     db1 = my.insert_data(insesql)
 
     # 关闭数据库
@@ -144,6 +141,8 @@ driver.find_element_by_xpath("//input[@placeholder='请粘贴/输入手机号码
 driver.find_element_by_xpath("//*[@id=\"dial-task\"]/div/div[2]/button").click()
 sleep(1.0)
 
+# 判断外呼成功
+driver.assert_exist("/html/body/div[5]/p", "xpath", "判断外呼成功.")
 
 """ 用例二 """
 
@@ -182,7 +181,6 @@ sleep(1.0)
 # 关闭快捷外呼弹窗
 driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[2]/ul/div[4]/div[1]/div[1]/img").click()
 
-
 """用例三"""
 
 # 接口新增数据数据
@@ -214,11 +212,11 @@ print(number_text)
 assert_equal(number_text, '100条/页', '判断是否展示100条/页')
 
 # 生成报告
-# simple_report(__file__, logpath=True, output=r"D:\PycharmProjects\AirProjectDome\idcc_report.html")
-rp = LogToHtml(__file__, export_dir=r'D:\PycharmProjects\AirProjectDome\report',
-               lang='zh', plugins=["airtest_selenium.report"])
-
-rp.report(output_file=r'idcc.html')
+simple_report(__file__, logpath=True, output=r"D:\PycharmProjects\AirProjectDome\idcc_report.html")
+# rp = LogToHtml(__file__, export_dir=r'D:\PycharmProjects\AirProjectDome\report',
+#                lang='zh', plugins=["airtest_selenium.report"])
+#
+# rp.report(output_file=r'idcc.html')
 
 # 关闭浏览器
 driver.quit()

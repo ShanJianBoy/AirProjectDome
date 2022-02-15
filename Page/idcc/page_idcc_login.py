@@ -3,6 +3,7 @@ __author__ = "Jian"
 
 import time
 
+from airtest.core.api import *
 from selenium.webdriver.common.by import By
 from Page.base.base_page import BasePage
 
@@ -28,7 +29,7 @@ class IdccLogin(BasePage):
     click_pj_loc = (By.XPATH, "/html/body/div[last()]/div/div/ul/li[2]")
     # 切换确认按钮
     click_qr_loc = (By.CSS_SELECTOR, "body > div.el-dialog__wrapper > div > div.el-dialog__body > div > div > "
-                                    "button.el-button.dialog-footer-btn.el-button--primary.el-button--medium""")
+                                     "button.el-button.dialog-footer-btn.el-button--primary.el-button--medium""")
 
     def login_action(self):
         """页面的动作"""
@@ -43,10 +44,10 @@ class IdccLogin(BasePage):
         # 点击登录
         self.click(IdccLogin.login_loc)
         # 强制等待
-        time.sleep(1.0)
+        time.sleep(1.5)
         # 获取文本
         user_text = self.get_text(IdccLogin.tx_loc)
-        print(user_text)
+        log(user_text, desc="--login--")
         # 判断不是1130项目/运营人员就切换
         if user_text != '1130测试项目（20211130） /　DCC运营人员 切换':
             self.click(IdccLogin.cut_loc)

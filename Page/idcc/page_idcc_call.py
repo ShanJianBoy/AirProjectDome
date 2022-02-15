@@ -1,10 +1,10 @@
 # -*- encoding=utf8 -*-
 __author__ = "Jian"
 
-import time
 import os
 
 import numpy as np
+from airtest.core.api import *
 from selenium.webdriver.common.by import By
 
 from Page.base.base_page import BasePage
@@ -18,6 +18,7 @@ my = NewMySql()
 ProjectHome = os.path.split(os.path.realpath(__file__))[0]
 TestCasePath = os.path.join(ProjectHome, "TestCase")
 file = os.path.join(TestCasePath, 'D:/PycharmProjects/AirProjectDome/TestCase/Demo/TestData/my_phone.xlsx')
+
 
 # idcc快捷外呼页面类
 class IdccCall(BasePage):
@@ -39,7 +40,7 @@ class IdccCall(BasePage):
     # 发起外呼按钮
     fq_call_loc = (By.XPATH, "//*[@id=\"dial-task\"]/div/div[2]/button")
     # 断言元素
-    ass_loc = ("/html/body/div[5]/p", "xpath")
+    ass_loc = "/html/body/div[5]/p"
 
     def call_action_one(self):
         """页面动作"""
@@ -56,13 +57,13 @@ class IdccCall(BasePage):
         # 点击在线
         self.click(IdccCall.zx_state_loc)
         self.click(IdccCall.on_line_loc)
-        time.sleep(1.0)
+        sleep(1.0)
         # 点击首页外呼按钮
         self.click(IdccCall.home_call_loc)
         # 输入手机号
         self.send_keys(IdccCall.phone_loc, phone)
         self.click(IdccCall.fq_call_loc)
-        time.sleep(1.0)
+        # sleep(5.0)
 
     def insert_data(self):
         """不存在坐席时的数据插入"""

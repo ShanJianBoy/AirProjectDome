@@ -5,6 +5,8 @@ import numpy as np
 import pymysql
 import os
 
+from airtest.core.api import *
+
 from Comm.excel_data import read_excel
 from Comm.phone_data import ran_num
 
@@ -31,7 +33,7 @@ class NewMySql:
             result = cur.fetchall()
             return result
         except Exception as e:
-            print("执行数据库查询失败原因:%s" % e)
+            log("执行数据库查询失败原因:%s" % e)
             cur.close()
             exit()
 
@@ -47,7 +49,7 @@ class NewMySql:
             cur.execute("commit")
             return True
         except Exception as e:
-            print("执行数据库查询失败原因:%s" % e)
+            log("执行数据库查询失败原因:%s" % e)
             cur.execute("rollback")  # 回滚当前事务
             cur.close()
             return False

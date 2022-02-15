@@ -24,7 +24,7 @@ def random_phone():
 
 def ran_list(num):
     """循环生成序号与手机号插入列表"""
-    f = faker_maker()
+    f = Faker('zh_CN')
     faker_lists = []
 
     for j in range(num):

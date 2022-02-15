@@ -1,15 +1,13 @@
 # -*- encoding=utf8 -*-
 __author__ = "Jian"
 
-import logging
-import time
 
+from airtest.core.api import *
 from selenium.webdriver.common.by import By
 from Page.base.base_page import BasePage
 
-logger = logging.getLogger('main.add_page')
 
-
+# 新增页面类封装
 class IdccAdd(BasePage):
     # 点击新增
     new_loc = (By.XPATH, '//*[@id="app"]/div/div[2]/section/div/div[1]/div[2]/div[1]/button[1]')
@@ -64,51 +62,47 @@ class IdccAdd(BasePage):
     qx_loc = (By.CSS_SELECTOR, 'body > div.el-dialog__wrapper.form-dialog > div > div.el-dialog__footer > div > div > '
                                'button.el-button.footer-btn-right.el-button--default.el-button--medium > span')
     # 提示语定位
-    cue_loc = (By.CSS_SELECTOR, "body > div.el-message.el-message--success > p")
+    cue_loc = (By.CSS_SELECTOR, "body > div.el-message.el-message--success > p", "xpath")
+    # 列表第一条线索名字
+    one_loc = (By.XPATH, "//*[@id=\"app\"]/div/div[2]/section/div/div[1]/div[2]/div[2]/div[1]/div[4]/div["
+                         "2]/table/tbody/tr[1]/td[2]/div/span")
 
     # 页面的动作
-    def add_action(self, name, phone):
+    def add_action(self, name, phone, cur_time):
 
         self.ec_click(IdccAdd.new_loc)
-        time.sleep(1)
+        sleep(1.0)
         self.send_keys(IdccAdd.name_loc, name)
         self.send_keys(IdccAdd.phone_loc, phone)
 
         self.click(IdccAdd.source_loc)
-        time.sleep(0.5)
+        sleep(0.5)
         self.click(IdccAdd.source1_loc)
 
         self.click(IdccAdd.store_loc)
-        time.sleep(0.5)
+        sleep(0.5)
         self.click(IdccAdd.store1_loc)
 
         self.click(IdccAdd.car_loc)
-        time.sleep(0.5)
+        sleep(0.5)
         self.click(IdccAdd.car1_loc)
         self.click(IdccAdd.car2_loc)
 
         # dcc客服不管什么角色都选择第一个
-        self.click(IdccAdd.dcc_loc)
-        time.sleep(0.5)
-        self.click(IdccAdd.dcc1_loc)
-        time.sleep(1)
+        # self.click(IdccAdd.dcc_loc)
+        # time.sleep(0.5)
+        # self.click(IdccAdd.dcc1_loc)
+        # time.sleep(1)
 
         # 时间控件的处理,input类型,直接输入
-        self.send_keys(IdccAdd.time_loc, "2021-12-01")
-
+        self.send_keys(IdccAdd.time_loc, cur_time)
         self.send_keys(IdccAdd.log_loc, "Test---自动化新增")
-
         self.click(IdccAdd.qr_loc)
         time.sleep(0.5)
 
         # 线索是否重复处理
-        try:
-            loc = IdccAdd.qrc_loc
-            self.click(loc)
-            logger.info("线索重复")
-        except:
-            pass
-        finally:
-            logger.info("新增成功")
-            time.sleep(1)
-
+        # if self.locator_element(IdccAdd.qrc_loc):
+        #     self.click(IdccAdd.qrc_loc)
+        #     log("线索重复", desc='--add--')
+        # else:
+        #     log("新增成功", desc="---add---")

@@ -1,15 +1,17 @@
 import requests
 import json
 
-from Comm.phone_data import random_phone, faker_maker
+from faker import Faker
+from airtest.core.api import *
+
+from Comm.phone_data import random_phone
 
 
 def add_lead(num):
-
     for i in range(num):
+        fake = Faker('zh_CN')
         phone = random_phone()
-        faker = faker_maker()
-        name = faker.name()
+        name = fake.name()
 
         url = "https://pre-release-scrm-server.m-insight.com.cn/crm/web/acq/lead/add"
 
@@ -17,8 +19,8 @@ def add_lead(num):
                    'X-APP-ID': '7aac08b625424186', 'X-IDENTITY-ID': '503',
                    'X-PROJECT-ID': '84', 'X-ROLE-ID': '20',
                    'X-TOKEN': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9'
-                              '.eyJtdWlkIjoxOTk4NTUsInVpZCI6MTk5ODU1LCJleHAiOjE2NDQ0NjUzNzR9'
-                              '.khkI8juVJLseasbDTUnUT_4IRTJk20UJI9bljpcE6sc'}
+                              '.eyJtdWlkIjoxOTk4NTUsInVpZCI6MTk5ODU1LCJleHAiOjE2NDQ5Nzk4NTF9'
+                              '.uAiegKMvjb4y3cdCn__EkTbr6VNEbUKGG434UDWoN2A'}
 
         payload = {
             "name": name,
@@ -37,7 +39,6 @@ def add_lead(num):
         }
 
         r = requests.post(url, json=payload, headers=headers)
-        print(r.text)
-
+        log(r.text)
 
 # add_lead(1)

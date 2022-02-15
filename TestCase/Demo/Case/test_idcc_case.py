@@ -49,7 +49,7 @@ class TestCase(BaseUtil):
             call.to_assert(call.ass_loc, "xpath", "断言是否外呼成功")
             log("断言成功,验证通过", desc="--call--")
         except Exception as e:
-            log("断言失败,验证不通过 %s" % e, desc="--call--")
+            log("断言失败,验证不通过 %s." % e, desc="--call--")
 
     def test_02(self):
         """
@@ -68,7 +68,7 @@ class TestCase(BaseUtil):
             self.assertEqual(one_text, user_name, "检查是否新增成功")
             log("断言成功,验证通过", desc="--add--")
         except Exception as e:
-            log("断言失败,验证不通过 %s" % e, desc="--add--")
+            log("断言失败,验证不通过 %s." % e, desc="--add--")
 
     def test_03_paging(self):
         """
@@ -87,8 +87,8 @@ class TestCase(BaseUtil):
         number_but = pa.get_attribute(pa.pages_loc)
         log(number_but)
         try:
-            self.assertEqual(number_but, '100条/页', '检查是否展示100条/页')
-            log("Verification by", desc="--paging--")
+            assert_equal(number_but, '100条/页', '检查是否展示100条/页')
+            log("断言成功,验证通过", desc="--paging--")
         except Exception as e:
-            log("Verification failed, %s." % e, desc="--paging--")
+            log("断言失败,验证不通过 %s." % e, desc="--paging--")
 

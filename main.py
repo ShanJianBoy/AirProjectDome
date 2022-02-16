@@ -1,7 +1,7 @@
 import unittest
 
 from airtest.core.api import *
-from airtest.report.report import simple_report
+from airtest.report.report import simple_report, LogToHtml
 
 case_path = r'D:\PycharmProjects\AirProjectDome\TestCase'
 
@@ -26,10 +26,17 @@ def run_case(suite_case):
     runner.run(suite_case)
 
 
+def gen_report():
+    """生成airtest测试报告"""
+    gen_port = LogToHtml(__file__, log_root=r'D:\PycharmProjects\AirProjectDome\Log',
+                         export_dir=r'D:\PycharmProjects\AirProjectDome\report',
+                         logfile=r'D:\PycharmProjects\AirProjectDome\Log\log.txt',
+                         lang='zh', plugins=["airtest_selenium.report"])
+
+    gen_port.report(output_file=r'idcc_report.html')
+
+
 if __name__ == '__main__':
     suite = all_case()
     run_case(suite)
-    # 生成airtest测试报告
-    simple_report(__file__, logpath=r'D:\PycharmProjects\AirProjectDome\log',
-                  logfile=r'D:\PycharmProjects\AirProjectDome\log\log.txt',
-                  output=r"D:\PycharmProjects\AirProjectDome\report\idcc_report_1.html")
+    gen_report()

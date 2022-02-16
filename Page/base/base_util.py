@@ -24,7 +24,7 @@ class BaseUtil(unittest.TestCase):
 
         url = sys_cfg['url']
         # 初始化启动浏览器
-        auto_setup(__file__, logdir=r'D:\PycharmProjects\AirProjectDome\log')
+        auto_setup(__file__, logdir=r'D:\PycharmProjects\AirProjectDome\Log')
 
         cls.driver = WebChrome()
         cls.driver.maximize_window()

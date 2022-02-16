@@ -1,6 +1,6 @@
 import pandas as pd
 from openpyxl import Workbook
-
+from airtest.core.api import *
 
 # 读取excel
 def read_excel(file, **kwargs):
@@ -33,7 +33,7 @@ def write_excel(filename, sheet, data, head=None):
             sheet0.cell(row=i, column=j + 1, value=val)
 
     wb.save(filename + '.xlsx')
-    print("写入数据成功！！！")
+    log("写入数据成功！！！", desc="--excel--")
 
 
 # from Comm.phone_data import ran_list

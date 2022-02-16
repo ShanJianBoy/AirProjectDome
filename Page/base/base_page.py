@@ -20,62 +20,98 @@ class BasePage:
 
     # 封装selenium原生方法
     # 元素定位关键字
-    def locator_element(self, loc):
-        # return self.driver.find_element(*loc)
-
-        try:
-            WebDriverWait(self.driver, 10, 0.5).until(ec.visibility_of_element_located(loc))
-            return self.driver.find_element(*loc)
-        except:
-            log(u"%s 页面中未能找到 %s 元素" % (self, loc))
-            # screen("page")
-            # print("%s 页面中未能找到 %s 元素" % (self, loc))
-            return False
-
-    # 等待元素出现
-    def is_visible(self, loc, timeout=10):
-        try:
-            ui.WebDriverWait(self.driver, timeout).until(ec.visibility_of_element_located((By.XPATH, loc)))
-            return True
-        except TimeoutException:
-            return False
+    def locator_element(self, key, loc):
+        if key == 'xpath':
+            try:
+                wait0 = WebDriverWait(self.driver, 3, 0.5)
+                # 使用匿名函数
+                wait0.until(lambda driver: driver.find_element_by_xpath(loc))
+                return self.driver.find_element_by_xpath(loc)
+            except:
+                log(u"%s 页面中未能找到 %s 元素" % (self, loc))
+                return False
+        if key == 'css':
+            try:
+                # 使用匿名函数
+                WebDriverWait(self.driver, 10, 0.5).until(lambda driver: driver.find_element_by_css_selector(loc))
+                return self.driver.find_element_by_css_selector(loc)
+            except:
+                log(u"%s 页面中未能找到 %s 元素" % (self, loc))
+                return False
+        if key == 'id':
+            try:
+                # 使用匿名函数
+                WebDriverWait(self.driver, 10, 0.5).until(lambda driver: driver.find_element_by_xpath(loc))
+                return self.driver.find_element_by_id(loc)
+            except:
+                log(u"%s 页面中未能找到 %s 元素" % (self, loc))
+                return False
+        if key == 'name':
+            try:
+                # 使用匿名函数
+                WebDriverWait(self.driver, 10, 0.5).until(lambda driver: driver.find_element_by_name(loc))
+                return self.driver.find_element_by_name(loc)
+            except:
+                log(u"%s 页面中未能找到 %s 元素" % (self, loc))
+                return False
+        if key == 'tag':
+            try:
+                # 使用匿名函数
+                WebDriverWait(self.driver, 10, 0.5).until(lambda driver: driver.find_element_by_tag_name(loc))
+                return self.driver.find_element_by_tag_name(loc)
+            except:
+                log(u"%s 页面中未能找到 %s 元素" % (self, loc))
+                return False
+        if key == 'linkText':
+            try:
+                # 使用匿名函数
+                WebDriverWait(self.driver, 10, 0.5).until(lambda driver: driver.find_element_by_link_text(loc))
+                return self.driver.find_element_by_link_text(loc)
+            except:
+                log(u"%s 页面中未能找到 %s 元素" % (self, loc))
+                return False
+        if key == 'class':
+            try:
+                # 使用匿名函数
+                WebDriverWait(self.driver, 10, 0.5).until(lambda driver: driver.find_element_by_class_name(loc))
+                return self.driver.find_element_by_class_name(loc)
+            except:
+                log(u"%s 页面中未能找到 %s 元素" % (self, loc))
+                return False
 
     # 清楚输入框
-    def clear(self, loc):
-        self.locator_element(loc).clear()
+    def clear(self, key, loc):
+        self.locator_element(key, loc).clear()
 
     # 输入值的关键字
-    def send_keys(self, loc, value):
-        self.locator_element(loc).send_keys(value)
+    def send_keys(self, key, loc, value):
+        self.locator_element(key, loc).send_keys(value)
 
     # 点击的关键字
-    def click(self, loc):
-        self.locator_element(loc).click()
+    def click(self, key, loc):
+        self.locator_element(key, loc).click()
 
     # 处理点击异常情况
-    def ec_click(self, loc):
-        name = self.locator_element(loc)
+    def ec_click(self, key, loc):
+        name = self.locator_element(key, loc)
         self.driver.execute_script("arguments[0].click();", name)
 
     # 获取文本信息
-    def get_text(self, loc):
-        value = self.locator_element(loc).text
+    def get_text(self, key, loc):
+        value = self.locator_element(key, loc).text
         return value
 
     # 获取元素标签的内容
-    def get_attribute(self, loc):
-        value = self.locator_element(loc).get_attribute("value")
+    def get_attribute(self, key, loc):
+        value = self.locator_element(key, loc).get_attribute("value")
         return value
 
-    # 元素是否存在断言
-    def to_assert(self, loc,  mode, text0):
+    # 断言
+    def to_assert(self, loc, mode, text0):
         self.driver.assert_exist(loc, mode, text0)
 
-    # 检查是的相等的断言
-    def equal_assert(self, loc, text0):
-        self.driver.assert_equal(loc, text0)
-
     """浏览器操作"""
+
     # 刷新页面
     def refresh_page(self):
         self.driver.refresh()
